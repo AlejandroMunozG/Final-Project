@@ -7,7 +7,6 @@ About: Fake app that lets you order a phone online, but its a scam and causes po
 # imports tkinter and random
 from tkinter import *
 from random import randint
-
 # Program class
 class Program:
     def __init__(self, master):
@@ -27,9 +26,18 @@ class Program:
         self.tax = 0.07
 
         # Window
-        self.master.geometry("+0+0")
+        self.master.geometry("+250+200")
         self.master.title("Online Phones")
         self.master["bg"] = self.bgColor
+
+        # funtions for entrys and btns
+        def on_key_press(event):
+            # If the entry box is not empty, enable the button
+            if self.nameEntry.get():
+                self.logInBtn["state"] = "normal"
+            # If the entry box is empty, disable the button
+            else:
+                self.logInBtn["state"] = "disabled"
 
         # Log in Widgets
         # log in title
@@ -43,8 +51,9 @@ class Program:
         self.name = StringVar()
         self.nameEntry = Entry(master,textvariable=self.name,foreground="#000000",bg=self.fontColor, font=("Times", 18))
         self.nameEntry.grid(column=0,row=2)
+        self.nameEntry.bind("<Key>", on_key_press)
         # Log in buttons
-        self.logInBtn = Button(master, text="Enter", bg=self.fontColor, font=("Times", 18), command=self.mainPage)
+        self.logInBtn = Button(master, text="Enter", bg=self.fontColor, font=("Times", 18), command=self.mainPage,state="disabled")
         self.logInBtn.config(foreground=self.bgColor)
         self.logInBtn.grid(row=3, column=0,pady=10)
 
@@ -195,6 +204,7 @@ class Program:
         self.buyBtn = Button(master,text="Buy",command=self.BuyPage)
         self.buyBtn.grid_forget()
     # sets count into color num
+    # functions
     def BLCK(self):
         self.pickColor = "BLCK"
         return self.pickColor
@@ -685,9 +695,76 @@ class Program:
         """Buying Page Where Users get to add credit card stuff, email, and address"""
         # set up window
         self.buy = Tk()
-        self.buy.geometry("+200+50")
+        self.buy.geometry("+300+250")
         self.buy["bg"] = self.bgColor
         self.buy.title("Shopping Cart")
+
+        #vars for btn disabled and enable
+        entryLN = StringVar()
+        entryA = StringVar()
+        entryE = StringVar()
+        entryCN = StringVar()
+        entryCNum = StringVar()
+        entryCE = StringVar()
+        entryCVV = StringVar()
+
+        # funtions for entrys and btns
+        def BuyKeyPressName(event):
+            # If the entry box is not empty, enable the button
+            if ShipName.get():
+                NextBtn["state"] = "normal"
+            # If the entry box is empty, disable the button
+            else:
+                NextBtn["state"] = "disabled"
+        def BuyKeyPressLastName(event):
+            # If the entry box is not empty, enable the button
+            if ShipLastName.get():
+                NextBtn["state"] = "normal"
+            # If the entry box is empty, disable the button
+            else:
+                NextBtn["state"] = "disabled"
+        def BuyKeyPressAddress(event):
+            # If the entry box is not empty, enable the button
+            if ShipAddress.get():
+                NextBtn["state"] = "normal"
+            # If the entry box is empty, disable the button
+            else:
+                NextBtn["state"] = "disabled"
+        def BuyKeyPressEmail(event):
+            # If the entry box is not empty, enable the button
+            if ShipEmail.get():
+                NextBtn["state"] = "normal"
+            # If the entry box is empty, disable the button
+            else:
+                NextBtn["state"] = "disabled"
+        def BuyKeyPressCreditName(event):
+            # If the entry box is not empty, enable the button
+            if ShipCreditName.get():
+                NextBtn["state"] = "normal"
+            # If the entry box is empty, disable the button
+            else:
+                NextBtn["state"] = "disabled"
+        def BuyKeyPressCreditNum(event):
+            # If the entry box is not empty, enable the button
+            if ShipCreditNum.get():
+                NextBtn["state"] = "normal"
+            # If the entry box is empty, disable the button
+            else:
+                NextBtn["state"] = "disabled"
+        def BuyKeyPressCreditExp(event):
+            # If the entry box is not empty, enable the button
+            if ShipCreditExp.get():
+                NextBtn["state"] = "normal"
+            # If the entry box is empty, disable the button
+            else:
+                NextBtn["state"] = "disabled"
+        def BuyKeyPressCreditCVV(event):
+            # If the entry box is not empty, enable the button
+            if ShipCreditCVV.get():
+                NextBtn["state"] = "normal"
+            # If the entry box is empty, disable the button
+            else:
+                NextBtn["state"] = "disabled"
 
         # calculations
         TaxCal = (self.pickPrice*self.tax)
@@ -726,43 +803,52 @@ class Program:
         # shipping info
         # name
         ShipName = Entry(self.buy,bg=self.fontColor, foreground=self.bgColor,font=("Times", 10))
-        ShipName.insert(0,"Name")
+        ShipName.insert(0,self.name.get())
         ShipName.grid(column=0,row=5,pady=10,sticky=W)
+        ShipName.bind("<Key>", BuyKeyPressName)
         # last name
-        ShipLastName = Entry(self.buy, bg=self.fontColor, foreground=self.bgColor, font=("Times", 10))
+        ShipLastName = Entry(self.buy, textvariable=entryLN, bg=self.fontColor, foreground=self.bgColor, font=("Times", 10))
         ShipLastName.insert(0, "Last Name")
         ShipLastName.grid(column=0, row=6, pady=10,sticky=W)
+        ShipLastName.bind("<Key>", BuyKeyPressLastName)
         # address
-        ShipAddress = Entry(self.buy,bg=self.fontColor, foreground=self.bgColor,font=("Times", 10))
+        ShipAddress = Entry(self.buy, textvariable=entryA,bg=self.fontColor, foreground=self.bgColor,font=("Times", 10))
         ShipAddress.insert(0,"Address")
         ShipAddress.grid(column=0,row=7,pady=10,sticky=W)
+        ShipAddress.bind("<Key>", BuyKeyPressAddress)
         # email
-        ShipEmail = Entry(self.buy, bg=self.fontColor, foreground=self.bgColor, font=("Times", 10))
+        ShipEmail = Entry(self.buy, textvariable=entryE, bg=self.fontColor, foreground=self.bgColor, font=("Times", 10))
         ShipEmail.insert(0, "Email")
         ShipEmail.grid(column=0, row=8, pady=10,sticky=W)
+        ShipEmail.bind("<Key>", BuyKeyPressEmail)
         # credit card name
-        ShipCreditName = Entry(self.buy, bg=self.fontColor, foreground=self.bgColor, font=("Times", 10))
+        ShipCreditName = Entry(self.buy, textvariable=entryCN, bg=self.fontColor, foreground=self.bgColor, font=("Times", 10))
         ShipCreditName.insert(0, "Name On Credit Card")
         ShipCreditName.grid(column=1, row=5, pady=10, sticky=E)
+        ShipCreditName.bind("<Key>", BuyKeyPressCreditName)
         # credit card num
-        ShipCreditNum = Entry(self.buy, bg=self.fontColor, foreground=self.bgColor, font=("Times", 10))
+        ShipCreditNum = Entry(self.buy, textvariable=entryCNum, bg=self.fontColor, foreground=self.bgColor, font=("Times", 10))
         ShipCreditNum.insert(0, "Credit Card Number")
         ShipCreditNum.grid(column=1, row=6, pady=10, sticky=E)
+        ShipCreditNum.bind("<Key>", BuyKeyPressCreditNum)
         # credit card exp
-        ShipCreditExp = Entry(self.buy, bg=self.fontColor, foreground=self.bgColor, font=("Times", 10))
+        ShipCreditExp = Entry(self.buy, textvariable=entryCE, bg=self.fontColor, foreground=self.bgColor, font=("Times", 10))
         ShipCreditExp.insert(0, "Expiration month/year")
         ShipCreditExp.grid(column=1, row=7, pady=10, sticky=E)
+        ShipCreditExp.bind("<Key>", BuyKeyPressCreditExp)
         # credit cvv
-        ShipCreditCVV = Entry(self.buy, bg=self.fontColor, foreground=self.bgColor, font=("Times", 10))
+        ShipCreditCVV = Entry(self.buy, textvariable=entryCVV,bg=self.fontColor, foreground=self.bgColor, font=("Times", 10))
         ShipCreditCVV.insert(0, "CVV")
         ShipCreditCVV.grid(column=1, row=8, pady=10, sticky=E)
+        ShipCreditCVV.bind("<Key>", BuyKeyPressCreditCVV)
 
         # btns
         BuyBack = Button(self.buy,text="Back", bg=self.fontColor, foreground=self.bgColor, font=("Times", 10),command=lambda :self.buy.destroy())
         BuyBack.grid(column=0,row=9,pady=10)
 
-        NextBtn = Button(self.buy,text="Next",bg=self.fontColor, foreground=self.bgColor, font=("Times", 10),command=self.HACKED)
+        NextBtn = Button(self.buy,text="Next",bg=self.fontColor, foreground=self.bgColor, font=("Times", 10),command=self.HACKED,state="disabled")
         NextBtn.grid(column=1,row=9,pady=10)
+    # hacked func
     def HACKED(self):
         """Hacked function that enables the pop ups"""
         self.buy.destroy()
